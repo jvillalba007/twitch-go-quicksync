@@ -37,7 +37,7 @@ const startStreaming = () => Promise
   .then(() => console.log(`👍`))
   .then(
     () => shouldExec(
-      `ffmpeg -re -stream_loop -1 -i ${dir}/list.txt -flush_packets 0 -framerate ${FRAME_RATE} -video_size 1280x720 -c:v libx264 -preset fast -ar 44100 -f flv ${INGEST}/${TWITCH_SECRET}`,
+     `ffmpeg -init_hw_device qsv=hw -filter_hw_device hw -re -stream_loop -1 -i ${dir}/list.txt -flush_packets 0 -video_size 1280x720 -vf hwupload=extra_hw_frames=64,format=qsv -c:v h264_qsv -preset fast -ar 44100 -f flv ${INGEST}/${TWITCH_SECRET}`,
     ),
   );
 
